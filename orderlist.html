@@ -1,0 +1,56 @@
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+<style>
+    th{ 
+        color:#fff;
+            }
+</style>
+
+<table class="table table-striped">
+    <tr  class="bg-info">
+        <th>Имя клиента</th>
+        <th>Телефон</th>
+        <th>Авто</th>
+        <th>VIN</th>
+        <th>Пробег</th>
+        <th>Проблема</th>
+        <th>Стоимость</th>
+    </tr>
+
+    <tbody id="orderTable">
+        
+    </tbody>
+</table>
+
+<script>
+    const fetchOrders = async function() {  
+        let response = await fetch('https://autookayauto-okay-backend-production.up.railway.app/orderList');
+        let orderList = await response.json();
+
+        for (var key in orderList) {
+            if (orderList.hasOwnProperty(key)) {
+                 buildTable(orderList[key])
+            }
+        }
+    }
+
+    fetchOrders()
+
+	function buildTable(data){
+        var table = document.getElementById('orderTable')
+
+		for (var i = 0; i < data.length; i++){
+			var row = `<tr>
+							<td>${data[i].customerName}</td>
+							<td>${data[i].customerPhone}</td>
+							<td>${data[i].carName}</td>
+                            <td>${data[i].carVinNumber}</td>
+                            <td>${data[i].carMileage}</td>
+                            <td>${data[i].problem}</td>
+                            <td>${data[i].price}</td>
+					   </tr>`
+			table.innerHTML += row
+		}
+	}
+
+</script>
